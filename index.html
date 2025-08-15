@@ -1,0 +1,190 @@
+Of course. If you don't have gallery or column options in WordPress, creating a self-contained HTML file and hosting it on GitHub (using GitHub Pages, for example) is an excellent and powerful solution. You can then embed this gallery into your WordPress post using an <iframe>.
+
+I have modified the React-based code you provided to create a fully functional and stylish image gallery for your spatial biology article. All 12 of your images and their detailed captions have been included.
+
+Key Changes Made:
+
+Content Update: Replaced the old "Digital Twin Heart" images and titles with your 12 spatial biology images and their full, descriptive captions.
+
+Improved Layout: The slideshow view now displays the long captions in a dedicated, readable area below the image instead of trying to cram them into the top bar.
+
+Enhanced Grid View: The grid is now optimized for 12 images, displaying in 4 columns on medium-sized screens and up.
+
+Better Accessibility: The alt tags for all images are now populated with their proper captions.
+
+General Cleanup: Renamed the component from HeartViewer to a more appropriate SpatialBiologyGallery.
+
+Your New Image Gallery Code
+
+Simply copy the entire code block below, save it as an .html file (e.g., gallery.html), and you can open it in your browser to see it work. You can then upload this single file to a service like GitHub Pages.
+
+code
+Html
+download
+content_copy
+expand_less
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Visual Deep Dive: Spatial Biology in Focus</title>
+    <!-- React and ReactDOM -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <!-- Babel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+    <!-- Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        /* A little extra style for better presentation */
+        body { background-color: #f0f2f5; }
+    </style>
+</head>
+<body>
+    <div id="root" class="p-4"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        const SpatialBiologyGallery = () => {
+          const [currentIndex, setCurrentIndex] = useState(0);
+          const [isGridView, setIsGridView] = useState(false);
+          
+          // All 12 images and captions from your article
+          const slides = [
+            {
+              src: 'https://www.rdworldonline.com/wp-content/uploads/2025/07/imageA.jpg',
+              caption: 'A thin section of human colon tissue was labeled with four Alexa Fluor™ dye-labeled antibodies to detect cytokeratin, CD20, PCNA, and Vimentin and imaged at 400x with the EVOS™ M7000 imaging system. 200 fields of view were stitched to create a composite image.'
+            },
+            {
+              src: 'https://www.rdworldonline.com/wp-content/uploads/2025/07/imageB.jpg',
+              caption: 'The cytoskeleton of human epithelial cells is illuminated with an Alexa Fluor™ 488 conjugated tubulin antibody and the nuclear counterstain DAPI.'
+            },
+            {
+              src: 'https://www.rdworldonline.com/wp-content/uploads/2025/07/imageC.jpg',
+              caption: 'Distinct structures within a normal human tonsil are identified with a combination of 8 Alexa Fluor™-labeled antibodies, with a clear separation between lymphoid follicles (blue), germinal centers (pink) and mantle and marginal zone (green). This composite of more than 300 images was created with the EVOS S1000 spatial imaging system.'
+            },
+            {
+              src: 'https://www.rdworldonline.com/wp-content/uploads/2025/07/imageD.jpg',
+              caption: 'Human breast cancer cells were treated with the therapeutic antibody trastuzumab labeled with pHrodo™ red dye (red) which has migrated to lysosomes (green). Plasma membrane is labeled with CellMask Plasma Membrane Deep Red (purple) and nucleus with Hoechst 33342 (blue).'
+            },
+            {
+              src: 'https://www.rdworldonline.com/wp-content/uploads/2025/07/imageE.jpg',
+              caption: 'A coronal section of rat kidney was labeled with a cocktail of 8 antibodies to identify individual cell types and their structural arrangement within the tissue. This image is a composite of more than 400 individual frames captured with the EVOS™ S1000 imaging system.'
+            },
+            {
+              src: 'https://www.rdworldonline.com/wp-content/uploads/2025/07/imageF.jpg',
+              caption: 'A tumoroid of cervical cancer cells designed to mimic the three-dimensional tumor environment was labeled with CellTracker™ Deep Red and imaged at 40x on the EVOS™ M5000 imaging system.'
+            },
+            {
+              src: 'https://www.rdworldonline.com/wp-content/uploads/2025/07/imageG.jpg',
+              caption: 'Live cervical cancer cells were treated with an anti-transferrin receptor antibody conjugated with LysoLight™ green (green), and MitoTracker™ Red (Red), and Hoechst (cyan). Cells were then imaged at 600x on a confocal microscope.'
+            },
+            {
+              src: 'https://www.rdworldonline.com/wp-content/uploads/2025/07/imageH.jpg',
+              caption: 'A live human monocyte-derived macrophage was labeled with CellMask™ Actin Deep Red (pink filapodia) and CellTrace™ Violet (red cell body) and imaged at 600x.'
+            },
+            {
+              src: 'https://www.rdworldonline.com/wp-content/uploads/2025/07/imageI.jpg',
+              caption: 'Human monocyte-derived macrophages labeled with CellMask™ Actin Green are observed as they eat staphylococcus bacteria labeled with pHrodo™ Red dye.'
+            },
+            {
+              src: 'https://www.rdworldonline.com/wp-content/uploads/2025/07/imageJ.jpg',
+              caption: 'A human neurosphere grown in NeuroBasal Plus media was labeled with Tubulin Tracker Deep Red (pink) and Hoechst 33342 to label nuclei (blue). Imaging was performed using the EVOS™ M7000 imaging system.'
+            },
+            {
+              src: 'https://www.rdworldonline.com/wp-content/uploads/2025/07/imageK.png',
+              caption: 'Human natural killer cells (red) labeled with CellTracker™ Deep Red are observed as they recognize and prepare to attack a human breast cancer tumoroid (dark region).'
+            },
+            {
+              src: 'https://www.rdworldonline.com/wp-content/uploads/2025/07/imageL.jpg',
+              caption: 'Human cytotoxic T cells labeled with CellTracker™ Deep Red (purple) as they invade and kill the cells of a breast cancer tumoroid. Killing events are indicated with the fluorescent sensor CellEvent™ Caspase 3/7 Green.'
+            }
+          ];
+        
+          const handleNext = () => {
+            setCurrentIndex((prev) => (prev + 1) % slides.length);
+          };
+        
+          const handlePrev = () => {
+            setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length);
+          };
+        
+          return (
+            <div className="w-full max-w-5xl mx-auto bg-gray-900 text-white rounded-lg shadow-xl overflow-hidden">
+              <div className="flex justify-between items-center p-4 border-b border-gray-700">
+                <h2 className="text-xl font-bold">Image Gallery <span className="text-gray-400 font-normal">({currentIndex + 1} / {slides.length})</span></h2>
+                <button
+                  onClick={() => setIsGridView(!isGridView)}
+                  className="p-2 hover:bg-gray-700 rounded-full transition-colors"
+                  aria-label={isGridView ? "Switch to slideshow view" : "Switch to grid view"}
+                >
+                  {isGridView ? (
+                    <i className="fas fa-expand fa-lg"></i>
+                  ) : (
+                    <i className="fas fa-th fa-lg"></i>
+                  )}
+                </button>
+              </div>
+        
+              {isGridView ? (
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 p-2">
+                  {slides.map((slide, idx) => (
+                    <div key={idx} className="aspect-w-1 aspect-h-1">
+                      <img
+                        src={slide.src}
+                        alt={slide.caption}
+                        className="w-full h-full object-cover cursor-pointer rounded-md hover:opacity-80 transition-opacity"
+                        onClick={() => {
+                          setCurrentIndex(idx);
+                          setIsGridView(false);
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div>
+                  <div className="relative bg-black" style={{ paddingBottom: '75%' }}>
+                    <img
+                      src={slides[currentIndex].src}
+                      alt={slides[currentIndex].caption}
+                      className="absolute top-0 left-0 w-full h-full object-contain"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-between p-2 md:p-4">
+                      <button
+                        onClick={handlePrev}
+                        className="p-2 md:p-3 bg-black bg-opacity-50 rounded-full hover:bg-opacity-75 transition-colors"
+                        aria-label="Previous image"
+                      >
+                        <i className="fas fa-chevron-left fa-lg md:fa-xl text-white"></i>
+                      </button>
+                      <button
+                        onClick={handleNext}
+                        className="p-2 md:p-3 bg-black bg-opacity-50 rounded-full hover:bg-opacity-75 transition-colors"
+                        aria-label="Next image"
+                      >
+                        <i className="fas fa-chevron-right fa-lg md:fa-xl text-white"></i>
+                      </button>
+                    </div>
+                  </div>
+                   <div className="p-4 bg-gray-800 border-t border-gray-700">
+                    <p className="text-sm text-gray-300">{slides[currentIndex].caption}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        };
+        
+        ReactDOM.render(
+            <SpatialBiologyGallery />,
+            document.getElementById('root')
+        );
+    </script>
+</body>
+</html>
